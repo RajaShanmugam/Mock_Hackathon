@@ -6,7 +6,7 @@ import java.math.RoundingMode;
 import java.io.FileNotFoundException;
 
 
-public class Memory {
+public class Usecase {
 
 	public static void main(String[] args) throws IOException {
 		JSONObject js = new JSONObject();
