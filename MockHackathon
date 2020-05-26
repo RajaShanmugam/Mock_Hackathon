@@ -1,0 +1,52 @@
+import java.util.*;
+import java.io.*;
+import org.json.JSONObject;
+import java.text.DecimalFormat;
+import java.math.RoundingMode;
+import java.io.FileNotFoundException;
+
+
+public class Memory {
+
+	public static void main(String[] args) throws IOException {
+		JSONObject js = new JSONObject();
+		JSONObject js1 = new JSONObject();
+		double[] arr = new double[10000];
+		File file = new File("E:\\memory.txt");
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			String readLine;
+			String str1;
+			int line = 0 , limit;
+			int i = 0,j;
+			int count = 0;
+			double temp, max = 0.0, sum = 0.0;
+			while ((readLine = br.readLine()) != null) {
+				count += 1;
+				if (line % 2 != 0) {
+					String value = readLine;
+					value = value.replaceAll("[^0-9]", "");
+					value = value.trim();
+					temp = Integer.parseInt(value);
+					arr[i++] = temp / 10000;
+				}
+				line += 1;
+			}
+			limit = count / 2;
+			for (j = 0; j < limit; j++) {
+				str1 = String.format("%d", j);
+				js1.put(str1 + "s", arr[j]);
+				if (arr[j] > max) {
+					max = arr[j];
+				}
+				sum = sum + arr[j];
+			}
+			double average = sum / limit;
+			DecimalFormat df = new DecimalFormat("#.###");
+			df.setRoundingMode(RoundingMode.CEILING);
+			js.put("AverageMemory(MB)", df.format(average));
+			js.put("values: ", js1);
+			js.put("MaximumMemory(MB)", df.format(max));
+			System.out.println(js);
+		}
+	}
+}
